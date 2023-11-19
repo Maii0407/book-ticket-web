@@ -24,7 +24,7 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const { setToken, setUser } = store.applicationStore();
+  const { setToken, setUser } = store.applicationStore((state) => state);
 
   const toast = useToast();
   const router = useRouter();
@@ -106,71 +106,70 @@ export default function Login() {
         isClosable: true,
         position: 'top-left'
       })
+      console.error(err);
     }
   }
 
   return (
-    <main>
-      <Flex
-        height="100vh"
-        alignItems="center"
-        justifyContent="center"
+    <Flex
+      height="100vh"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Card
+        variant="filled"
+        align="center"
       >
-        <Card
-          variant="filled"
-          align="center"
-        >
-          <CardHeader>
-            <Heading>Login</Heading>
-          </CardHeader>
-          <CardBody>
-            <FormControl isInvalid={isUsernameEmpty}>
-              <FormLabel>Username:</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter Username"
-                variant="outline"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              {!isUsernameEmpty ? (
-                <FormHelperText>
-                  Enter the username you would like to use
-                </FormHelperText>
-              ) : (
-                <FormErrorMessage>Username is required.</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isInvalid={isPasswordEmpty}>
-              <FormLabel>Password:</FormLabel>
-              <Input
-                type="password"
-                placeholder="Enter Password"
-                variant="outline"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {!isPasswordEmpty ? (
-                <FormHelperText>
-                  Enter the password you would like to use
-                </FormHelperText>
-              ) : (
-                <FormErrorMessage>Password is required.</FormErrorMessage>
-              )}
-            </FormControl>
-          </CardBody>
-          <CardFooter>
-            <ButtonGroup spacing='2'>
-              <Button variant='solid' colorScheme='blue' onClick={() => handleLogin()}>
-                Login
-              </Button>
-              <Button variant='ghost' colorScheme='blue' onClick={() => handleSignUp()}>
-                Sign-Up
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-      </Flex>
-    </main>
+        <CardHeader>
+          <Heading>Login</Heading>
+        </CardHeader>
+        <CardBody>
+          <FormControl isInvalid={isUsernameEmpty}>
+            <FormLabel>Username:</FormLabel>
+            <Input
+              type="text"
+              placeholder="Enter Username"
+              variant="outline"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            {!isUsernameEmpty ? (
+              <FormHelperText>
+                Enter the username you would like to use
+              </FormHelperText>
+            ) : (
+              <FormErrorMessage>Username is required.</FormErrorMessage>
+            )}
+          </FormControl>
+          <FormControl isInvalid={isPasswordEmpty}>
+            <FormLabel>Password:</FormLabel>
+            <Input
+              type="password"
+              placeholder="Enter Password"
+              variant="outline"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {!isPasswordEmpty ? (
+              <FormHelperText>
+                Enter the password you would like to use
+              </FormHelperText>
+            ) : (
+              <FormErrorMessage>Password is required.</FormErrorMessage>
+            )}
+          </FormControl>
+        </CardBody>
+        <CardFooter>
+          <ButtonGroup spacing='2'>
+            <Button variant='solid' colorScheme='blue' onClick={() => handleLogin()}>
+              Login
+            </Button>
+            <Button variant='ghost' colorScheme='blue' onClick={() => handleSignUp()}>
+              Sign-Up
+            </Button>
+          </ButtonGroup>
+        </CardFooter>
+      </Card>
+    </Flex>
   )
 }

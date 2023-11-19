@@ -1,7 +1,18 @@
 'use client'
+import { api } from "@/api/index.api";
 import { Concert } from "@/interface/concert.interface";
-import { store } from "@/store/index.store";
-import { Card, CardBody, CardFooter, Heading, Image, Button, ButtonGroup, Stack, Text } from '@chakra-ui/react'
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Heading,
+  Image,
+  Button,
+  ButtonGroup,
+  Stack,
+  Text,
+  useToast
+} from '@chakra-ui/react'
 
 type Props = {
   concert: Concert
@@ -10,7 +21,39 @@ type Props = {
 export const ConcertCard = (props: Props) => {
   const { concert } = props;
 
-  const { user, token } = store.applicationStore();
+  const toast = useToast();
+
+  const handleBuyTicket = async (concertID: string) => {
+    try {
+      const response = await api.tickets.create({ concertID })
+      console.log({ response })
+
+      toast({
+        title: 'Successfully buy ticket',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-left'
+      });
+    } catch (err: any) {
+      const {
+        error,
+        statusCode,
+        message
+      } = err.response.data;
+
+      toast({
+        title: `${error || "Error Code:"} ${statusCode}`,
+        description: Array.isArray(message) ? message.map((msg: string) => msg) : message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-left'
+      })
+
+      console.error(err);
+    }
+  }
 
   return (
     <Card variant="filled" direction={{ base: 'column', lg: 'row' }} overflow="hidden">
@@ -32,11 +75,12 @@ export const ConcertCard = (props: Props) => {
 
         <CardFooter>
           <ButtonGroup spacing='2'>
-            <Button variant='solid' colorScheme='blue'>
+            <Button
+              variant='solid'
+              colorScheme='blue'
+              onClick={() => handleBuyTicket(concert.ID)}
+            >
               Buy now
-            </Button>
-            <Button variant='ghost' colorScheme='blue'>
-              Add to cart
             </Button>
           </ButtonGroup>
         </CardFooter>

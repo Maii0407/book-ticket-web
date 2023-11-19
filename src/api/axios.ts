@@ -1,4 +1,5 @@
 import Axios, { AxiosError } from 'axios';
+import { authStorage } from '@/utils/auth.util';
 
 const instance = Axios.create({
   baseURL: 'http://localhost:3000',
@@ -6,10 +7,10 @@ const instance = Axios.create({
 
 instance.interceptors.request.use(
   function (config) {
-    config.headers['Authorization'] = `Bearer someAuthtoken`;
+    config.headers['Authorization'] = `Bearer ${authStorage.token.get()}`;
     return config;
   },
-  function (error) {
+  function (error: AxiosError<any>) {
     return Promise.reject(error);
   }
 );

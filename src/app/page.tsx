@@ -1,15 +1,27 @@
+'use client'
 import { Concert } from "@/interface/concert.interface";
 import { api } from "@/api/index.api";
 import { ConcertCard } from "./components/ConcertCard";
-import { Stack } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
+export default function Home() {
+  const [concerts, setConcerts] = useState([] as Concert[])
 
-  const response = await api.concerts.listAll()
-  const concerts = response.data;
+  const handleFetchConcerts = async () => {
+    const response = await api.concerts.listAll()
+    const concerts = response.data;
+    setConcerts(concerts);
+  }
+
+  useEffect(() => {
+    if (!concerts.length) {
+      handleFetchConcerts();
+    }
+  }, [concerts])
 
   return (
-    <main style={{ padding: '10px' }}>
+    <Box padding="5px">
       <Stack
         gap="5"
         paddingX={{ base: '2', lg: '20' }}
@@ -20,6 +32,6 @@ export default async function Home() {
           })
           : null}
       </Stack>
-    </main>
+    </Box>
   );
 }
