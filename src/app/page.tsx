@@ -9,6 +9,7 @@ export default function Home() {
     data: concerts,
     isSuccess,
     isLoading,
+    refetch
   } = queries.concerts.listAll();
 
   if (isLoading) {
@@ -37,7 +38,7 @@ export default function Home() {
         >
           {concerts
             ? concerts.data.map((concert: Concert) => {
-              return <ConcertCard key={concert.ID} concert={concert} />
+              return <ConcertCard key={concert.ID} concert={concert} refetch={refetch} />
             })
             : null}
         </Stack>

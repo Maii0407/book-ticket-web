@@ -15,11 +15,12 @@ import {
 } from '@chakra-ui/react'
 
 type Props = {
-  concert: Concert
+  concert: Concert,
+  refetch: () => void
 }
 
 export const ConcertCard = (props: Props) => {
-  const { concert } = props;
+  const { concert, refetch } = props;
 
   const toast = useToast();
 
@@ -36,6 +37,7 @@ export const ConcertCard = (props: Props) => {
         isClosable: true,
         position: 'top-left'
       });
+      refetch();
     } catch (err: any) {
       const {
         error,
