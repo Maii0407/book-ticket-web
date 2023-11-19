@@ -1,4 +1,6 @@
-import { Concert } from "@/types/concert";
+'use client'
+import { Concert } from "@/interface/concert.interface";
+import { store } from "@/store/index.store";
 import { Card, CardBody, CardFooter, Heading, Image, Button, ButtonGroup, Stack, Text } from '@chakra-ui/react'
 
 type Props = {
@@ -7,6 +9,8 @@ type Props = {
 
 export const ConcertCard = (props: Props) => {
   const { concert } = props;
+
+  const { user, token } = store.applicationStore();
 
   return (
     <Card variant="filled" direction={{ base: 'column', lg: 'row' }} overflow="hidden">
