@@ -1,6 +1,6 @@
 'use client'
-import { api } from "@/api/index.api";
 import { Concert } from "@/interface/concert.interface";
+import { queries } from "@/queries/index.query";
 import {
   Card,
   CardBody,
@@ -11,7 +11,7 @@ import {
   ButtonGroup,
   Stack,
   Text,
-  useToast
+  useToast,
 } from '@chakra-ui/react'
 
 type Props = {
@@ -23,10 +23,11 @@ export const ConcertCard = (props: Props) => {
 
   const toast = useToast();
 
+  const { mutateAsync } = queries.tickets.create();
+
   const handleBuyTicket = async (concertID: string) => {
     try {
-      const response = await api.tickets.create({ concertID })
-      console.log({ response })
+      const response = await mutateAsync({ concertID })
 
       toast({
         title: 'Successfully buy ticket',

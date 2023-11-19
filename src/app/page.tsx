@@ -1,37 +1,49 @@
 'use client'
 import { Concert } from "@/interface/concert.interface";
-import { api } from "@/api/index.api";
 import { ConcertCard } from "./components/ConcertCard";
-import { Box, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Flex, Spinner, Stack } from "@chakra-ui/react";
+import { queries } from "@/queries/index.query";
 
 export default function Home() {
-  const [concerts, setConcerts] = useState([] as Concert[])
+  const {
+    data: concerts,
+    isSuccess,
+    isLoading,
+  } = queries.concerts.listAll();
 
-  const handleFetchConcerts = async () => {
-    const response = await api.concerts.listAll()
-    const concerts = response.data;
-    setConcerts(concerts);
+  if (isLoading) {
+    return (
+      <Flex
+        height="100vh"
+        justifyContent="center"
+      >
+        <Spinner
+          thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl'
+        />
+      </Flex>
+    )
   }
 
-  useEffect(() => {
-    if (!concerts.length) {
-      handleFetchConcerts();
-    }
-  }, [concerts])
+  if (isSuccess) {
+    return (
+      <Box padding="5px">
+        <Stack
+          gap="5"
+          paddingX={{ base: '2', lg: '20' }}
+        >
+          {concerts
+            ? concerts.data.map((concert: Concert) => {
+              return <ConcertCard key={concert.ID} concert={concert} />
+            })
+            : null}
+        </Stack>
+      </Box>
+    );
+  }
 
-  return (
-    <Box padding="5px">
-      <Stack
-        gap="5"
-        paddingX={{ base: '2', lg: '20' }}
-      >
-        {concerts
-          ? concerts.map((concert: Concert) => {
-            return <ConcertCard key={concert.ID} concert={concert} />
-          })
-          : null}
-      </Stack>
-    </Box>
-  );
+  return null;
 }

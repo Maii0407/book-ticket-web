@@ -1,5 +1,4 @@
 'use client';
-import { api } from "@/api/index.api";
 import {
   Button,
   ButtonGroup,
@@ -14,11 +13,13 @@ import {
   Flex,
   FormHelperText,
   FormErrorMessage,
-  useToast
+  useToast,
+  Spinner
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { store } from "@/store/index.store";
 import { useRouter } from "next/navigation";
+import { queries } from "@/queries/index.query";
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -29,15 +30,22 @@ export default function Login() {
   const toast = useToast();
   const router = useRouter();
 
+  const { mutateAsync } = queries.users.create()
+
+  const {
+    mutateAsync: login,
+    isPending
+  } = queries.users.login()
+
   const isUsernameEmpty = username === '';
   const isPasswordEmpty = password === '';
 
   const handleSignUp = async () => {
     try {
-      const newUser = await api.users.create({
+      const newUser = await mutateAsync({
         username,
         password
-      });
+      })
 
       toast({
         title: `User ${newUser.data.username} created`,
@@ -70,10 +78,10 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await api.users.login({
+      const response = await login({
         username,
         password
-      });
+      })
 
       toast({
         title: `Successful Login`,
@@ -108,6 +116,23 @@ export default function Login() {
       })
       console.error(err);
     }
+  }
+
+  if (isPending) {
+    return (
+      <Flex
+        height="100vh"
+        justifyContent="center"
+      >
+        <Spinner
+          thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl'
+        />
+      </Flex>
+    )
   }
 
   return (
