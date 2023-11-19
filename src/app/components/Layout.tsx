@@ -52,7 +52,10 @@ export const Layout = ({
                 variant='outline'
               />
               <MenuList>
-                <MenuItem icon={<Icon as={MdListAlt} />}>
+                <MenuItem
+                  icon={<Icon as={MdListAlt} />}
+                  onClick={() => router.push('/order-history')}
+                >
                   Order History
                 </MenuItem>
                 <MenuItem icon={<Icon as={MdLogout} />}>

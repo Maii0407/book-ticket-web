@@ -15,4 +15,8 @@ export class TicketApi {
       concertID,
     });
   }
+
+  listAll(): Promise<AxiosResponse> {
+    return this.axios.get('/tickets');
+  }
 }

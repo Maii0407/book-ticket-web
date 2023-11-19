@@ -69,20 +69,28 @@ export const ConcertCard = (props: Props) => {
           <Heading size="2">by {concert.artistName}</Heading>
           <Text py="2">Ticket Price: RM{concert.ticketPrice}</Text>
           <Text py="2">Available Tickets: {concert.availableTickets}</Text>
-          <Text py="2">Ticket Price: {concert.availableTickets}</Text>
           <Text py="2">Concert Date: {new Date(concert.concertDate).toLocaleDateString()}</Text>
           <Text py="2">Venue: {concert.venue}</Text>
         </CardBody>
 
         <CardFooter>
           <ButtonGroup spacing='2'>
-            <Button
-              variant='solid'
-              colorScheme='blue'
-              onClick={() => handleBuyTicket(concert.ID)}
-            >
-              Buy now
-            </Button>
+            {
+              !concert.availableTickets ? (
+                <Button disabled={true} colorScheme="gray" variant="solid">
+                  Sold Out
+                </Button>
+              )
+                : (
+                  <Button
+                    variant='solid'
+                    colorScheme='blue'
+                    onClick={() => handleBuyTicket(concert.ID)}
+                  >
+                    Buy now
+                  </Button>
+                )
+            }
           </ButtonGroup>
         </CardFooter>
       </Stack>
