@@ -24,6 +24,7 @@ type Props = {
 
 export const ConcertPopover = (props: Props) => {
   const { concert } = props;
+
   return (
     <Popover>
       <PopoverTrigger>
@@ -31,7 +32,7 @@ export const ConcertPopover = (props: Props) => {
           Concert Details
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent color='black'>
         <PopoverArrow />
         <PopoverHeader>
           <Image

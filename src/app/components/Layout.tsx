@@ -4,7 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import {
   HamburgerIcon,
 } from "@chakra-ui/icons";
-import { MdLogout, MdOutlineShoppingCart, MdListAlt } from 'react-icons/md';
+import { MdLogout, MdHome, MdListAlt } from 'react-icons/md';
 import {
   Button,
   Flex,
@@ -15,18 +15,24 @@ import {
   MenuList,
   MenuItem
 } from "@chakra-ui/react";
+import { User } from "@/interface/user.interface";
 
 export const Layout = ({
   children,
 }: {
   children: React.ReactNode
 }) => {
-  const { token, user } = store.applicationStore((state) => state);
+  const { token, user, setToken, setUser } = store.applicationStore((state) => state);
 
   const router = useRouter();
   const pathname = usePathname();
 
   const authenticated = token && user;
+
+  const handleLogout = () => {
+    setToken('');
+    setUser({} as User);
+  }
 
   if (pathname === '/login') {
     return (
@@ -50,15 +56,29 @@ export const Layout = ({
                 aria-label='Options'
                 icon={<HamburgerIcon />}
                 variant='outline'
+                backgroundColor="white"
+                border="5px double blue"
               />
               <MenuList>
+                <MenuItem
+                  icon={<Icon as={MdHome} />}
+                  onClick={() => router.push('/')}
+                >
+                  Home
+                </MenuItem>
                 <MenuItem
                   icon={<Icon as={MdListAlt} />}
                   onClick={() => router.push('/order-history')}
                 >
                   Order History
                 </MenuItem>
-                <MenuItem icon={<Icon as={MdLogout} />}>
+                <MenuItem
+                  icon={<Icon as={MdLogout} />}
+                  onClick={() => {
+                    handleLogout();
+                    router.push('/');
+                  }}
+                >
                   Logout
                 </MenuItem>
               </MenuList>

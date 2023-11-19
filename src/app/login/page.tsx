@@ -142,8 +142,11 @@ export default function Login() {
       justifyContent="center"
     >
       <Card
-        variant="filled"
+        variant="outline"
         align="center"
+        backgroundColor="transparent"
+        color="white"
+        border="5px double blue"
       >
         <CardHeader>
           <Heading>Login</Heading>
@@ -189,7 +192,7 @@ export default function Login() {
             <Button variant='solid' colorScheme='blue' onClick={() => handleLogin()}>
               Login
             </Button>
-            <Button variant='ghost' colorScheme='blue' onClick={() => handleSignUp()}>
+            <Button variant='ghost' colorScheme='white' onClick={() => handleSignUp()}>
               Sign-Up
             </Button>
           </ButtonGroup>

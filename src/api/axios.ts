@@ -15,4 +15,16 @@ instance.interceptors.request.use(
   }
 );
 
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error: AxiosError<any>) {
+    if (error.response && error.response.status === 401) {
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const axios = instance;

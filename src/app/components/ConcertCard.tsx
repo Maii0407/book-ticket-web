@@ -59,7 +59,14 @@ export const ConcertCard = (props: Props) => {
   }
 
   return (
-    <Card variant="filled" direction={{ base: 'column', lg: 'row' }} overflow="hidden">
+    <Card
+      variant="outline"
+      backgroundColor="transparent"
+      direction={{ base: 'column', lg: 'row' }}
+      overflow="hidden"
+      color="white"
+      border="5px double blue"
+    >
       <Image
         objectFit='cover'
         src={concert.imageURL}

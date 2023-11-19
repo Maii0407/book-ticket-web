@@ -23,7 +23,10 @@ export const TicketCard = (props: Props) => {
   return (
     <Card
       direction={{ base: 'column', lg: 'row' }}
-      variant='filled'
+      variant='outline'
+      backgroundColor="transparent"
+      border="5px double blue"
+      color="white"
     >
       <Flex
         padding="15"
