@@ -2,7 +2,7 @@ import Axios, { AxiosError } from 'axios';
 import { authStorage } from '@/utils/auth.util';
 
 const instance = Axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: process.env.NEXT_PUBLIC_BOOK_TICKET_API_URL,
 });
 
 instance.interceptors.request.use(
